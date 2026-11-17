@@ -1,8 +1,10 @@
+﻿.venv-1/
 .venv/
-*.pyc
-__pycache__/
+venv/
 instance/
-.cache/
+__pycache__/
+*.pyc
+flaskr/static/uploads/
 .pytest_cache/
 .coverage
 htmlcov/
@@ -10,5 +12,6 @@ dist/
 build/
 *.egg-info/
 .idea/
+.vscode/
 *.swp
 *~

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1 class="h3 mb-0">{% block title %}Painel de cálculos{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="row g-4">
+
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-bold">IRPF mensal (estimativa)</div>
+        <div class="card-body">
+          <form method="post">
+            <input type="hidden" name="acao" value="irpf">
+            <div class="mb-3">
+              <label for="salario_bruto" class="form-label">Salário bruto (R$)</label>
+              <input type="text" class="form-control" id="salario_bruto" name="salario_bruto"
+                     placeholder="6000,00" required>
+            </div>
+            <div class="mb-3">
+              <label for="deducoes" class="form-label">Deduções: INSS, dependentes... (R$, opcional)</label>
+              <input type="text" class="form-control" id="deducoes" name="deducoes" placeholder="0,00">
+            </div>
+            <button type="submit" class="btn btn-primary">Calcular IRPF</button>
+          </form>
+
+          {% if erro_irpf %}
+            <div class="alert alert-danger mt-3 mb-0">{{ erro_irpf }}</div>
+          {% endif %}
+          {% if resultado_irpf %}
+            <ul class="list-group mt-3">
+              <li class="list-group-item d-flex justify-content-between"><span>Salário bruto</span><span>{{ resultado_irpf.bruto }}</span></li>
+              <li class="list-group-item d-flex justify-content-between"><span>Base de cálculo</span><span>{{ resultado_irpf.base }}</span></li>
+              <li class="list-group-item d-flex justify-content-between"><span>Alíquota da faixa</span><span>{{ resultado_irpf.aliquota }}</span></li>
+              <li class="list-group-item d-flex justify-content-between"><span>Imposto pela tabela</span><span>{{ resultado_irpf.imposto_tabela }}</span></li>
+              <li class="list-group-item d-flex justify-content-between"><span>Redutor 2026</span><span>- {{ resultado_irpf.redutor }}</span></li>
+              <li class="list-group-item d-flex justify-content-between fw-bold list-group-item-success"><span>IRPF estimado</span><span>{{ resultado_irpf.imposto }}</span></li>
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header fw-bold">13º salário proporcional</div>
+        <div class="card-body">
+          <form method="post">
+            <input type="hidden" name="acao" value="decimo">
+            <div class="mb-3">
+              <label for="salario_base" class="form-label">Salário base (R$)</label>
+              <input type="text" class="form-control" id="salario_base" name="salario_base"
+                     placeholder="3000,00" required>
+            </div>
+            <div class="mb-3">
+              <label for="meses" class="form-label">Meses trabalhados no ano (1 a 12)</label>
+              <input type="number" class="form-control" id="meses" name="meses" min="1" max="12" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Calcular 13º</button>
+          </form>
+
+          {% if erro_13 %}
+            <div class="alert alert-danger mt-3 mb-0">{{ erro_13 }}</div>
+          {% endif %}
+          {% if resultado_13 %}
+            <ul class="list-group mt-3">
+              <li class="list-group-item d-flex justify-content-between"><span>Salário base</span><span>{{ resultado_13.salario }}</span></li>
+              <li class="list-group-item d-flex justify-content-between"><span>Meses trabalhados</span><span>{{ resultado_13.meses }}</span></li>
+              <li class="list-group-item d-flex justify-content-between fw-bold list-group-item-success"><span>13º proporcional</span><span>{{ resultado_13.valor }}</span></li>
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
